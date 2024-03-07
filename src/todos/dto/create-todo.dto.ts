@@ -1,5 +1,13 @@
+import { IsIn, IsNumber, IsString } from 'class-validator';
+
 export class CreateTodoDto {
-  name: string;
+  @IsString()
+  requestName: string;
+
+  @IsString()
+  @IsIn(['house', 'cable-guy'])
   description: string;
-  isCompleted: boolean;
+  // @IsNumber()
+  // payment: number;
+  // isCompleted: boolean;
 }

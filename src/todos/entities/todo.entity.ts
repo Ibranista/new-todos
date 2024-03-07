@@ -6,11 +6,13 @@ export class TodoEntity {
   id: number;
 
   @Column()
-  name: string;
+  requestName: string;
 
   @Column({ type: 'text' })
   description: string;
 
-  @Column({ type: 'boolean', default: false })
-  isCompleted: boolean;
+  // @Column({ type: 'int' })
+  // payment: number;
+  // @Column({ type: 'boolean', default: false })
+  // isCompleted: boolean;
 }
