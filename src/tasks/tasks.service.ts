@@ -3,6 +3,7 @@ import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { TodosService } from 'src/todos/todos.service';
 import { UsersService } from 'src/users/users.service';
+import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class TasksService {
@@ -11,14 +12,17 @@ export class TasksService {
     private userServices: UsersService,
   ) {}
 
+  // @Cron('45 * * * * *')
+  // handleCron() {
+  //   this.checkTodosAndAssignIfItExists();
+  // }
+
   async checkTodosAndAssignIfItExists() {
     const todos = await this.todoServices.findAll();
     const exists = [todos].length > 0;
 
     if (exists) {
       const users = await this.userServices.findAll();
-      console.log('users', users);
-      console.log('todos', todos);
       const matchingTodos = todos.filter((todo) => {
         return users.some((user) => user.position === todo.requestName);
       });
