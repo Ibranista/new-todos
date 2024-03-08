@@ -19,17 +19,35 @@ export class TasksService {
 
   async checkTodosAndAssignIfItExists() {
     const todos = await this.todoServices.findAll();
-    const exists = [todos].length > 0;
+    const exists = todos.length > 0;
 
     if (exists) {
       const users = await this.userServices.findAll();
       const matchingTodos = todos.filter((todo) => {
-        return users.some((user) => user.position === todo.requestName);
+        const matchingUsers = users.filter(
+          (user) => user.position === todo.requestName,
+        );
+        return matchingUsers.length > 0;
       });
-      return matchingTodos;
+
+      this.assignTaskToUser(matchingTodos);
     } else {
       console.log('no person to assign');
     }
+  }
+
+  async assignTaskToUser(matchingTodos) {
+    const users = await this.userServices.findAll();
+
+    matchingTodos.forEach((todo) => {
+      const matchingUsers = users.filter(
+        (user) => user.position === todo.requestName,
+      );
+
+      matchingUsers.forEach(async (user) => {
+        await this.userServices.update(user.id, todo);
+      });
+    });
   }
 
   async create(createTaskDto: CreateTaskDto) {

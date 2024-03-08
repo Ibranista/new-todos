@@ -10,4 +10,10 @@ export class User {
 
   @Column({ type: 'text' })
   position: string;
+
+  @Column({ type: 'boolean', default: false })
+  isAssigned: boolean;
+
+  @Column({ type: 'text', default: null })
+  task: string;
 }
