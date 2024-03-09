@@ -26,6 +26,7 @@ import { ScheduleModule } from '@nestjs/schedule';
         database: configService.get('DB_NAME'),
         entities: [join(process.cwd(), 'dist/**/*.entity{.ts,.js}')],
         synchronize: true,
+        ssl: { rejectUnauthorized: false },
       }),
     }),
     TodosModule,
